@@ -28,48 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.BlueprintItemList = new System.Windows.Forms.ListView();
-            this.label9 = new System.Windows.Forms.Label();
             this.ResultList = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ItemNameInput = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // BlueprintItemList
-            // 
-            this.BlueprintItemList.HideSelection = false;
-            this.BlueprintItemList.Location = new System.Drawing.Point(24, 273);
-            this.BlueprintItemList.Name = "BlueprintItemList";
-            this.BlueprintItemList.Size = new System.Drawing.Size(208, 192);
-            this.BlueprintItemList.TabIndex = 24;
-            this.BlueprintItemList.UseCompatibleStateImageBehavior = false;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 245);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(55, 13);
-            this.label9.TabIndex = 23;
-            this.label9.Text = "蓝图材料";
-            // 
             // ResultList
             // 
+            this.ResultList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
             this.ResultList.HideSelection = false;
             this.ResultList.Location = new System.Drawing.Point(24, 66);
+            this.ResultList.MultiSelect = false;
             this.ResultList.Name = "ResultList";
-            this.ResultList.Size = new System.Drawing.Size(208, 164);
+            this.ResultList.Size = new System.Drawing.Size(290, 420);
             this.ResultList.TabIndex = 22;
             this.ResultList.UseCompatibleStateImageBehavior = false;
+            this.ResultList.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "名称";
+            this.columnHeader1.Width = 280;
             // 
             // ItemNameInput
             // 
             this.ItemNameInput.Location = new System.Drawing.Point(58, 29);
             this.ItemNameInput.Name = "ItemNameInput";
-            this.ItemNameInput.Size = new System.Drawing.Size(174, 20);
+            this.ItemNameInput.Size = new System.Drawing.Size(256, 20);
             this.ItemNameInput.TabIndex = 21;
+            this.ItemNameInput.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ItemNameInput_KeyUp);
             // 
             // label1
             // 
@@ -83,14 +74,12 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ResultList);
-            this.groupBox1.Controls.Add(this.BlueprintItemList);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.ItemNameInput);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(265, 492);
+            this.groupBox1.Size = new System.Drawing.Size(365, 492);
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "搜索";
@@ -101,7 +90,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Name = "SearchBox";
-            this.Size = new System.Drawing.Size(265, 492);
+            this.Size = new System.Drawing.Size(365, 492);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -109,12 +98,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ListView BlueprintItemList;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ListView ResultList;
         private System.Windows.Forms.TextBox ItemNameInput;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }

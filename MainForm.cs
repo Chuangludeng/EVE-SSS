@@ -16,5 +16,12 @@ namespace EVE_SSS
         {
             InitializeComponent();
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            DataManager.Init();
+
+            SearchBox_Enter.SearchBoxInit();
+        }
     }
 }
