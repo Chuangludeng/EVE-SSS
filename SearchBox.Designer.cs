@@ -48,6 +48,7 @@
             this.ResultList.TabIndex = 22;
             this.ResultList.UseCompatibleStateImageBehavior = false;
             this.ResultList.View = System.Windows.Forms.View.Details;
+            this.ResultList.SelectedIndexChanged += new System.EventHandler(this.ResultList_SelectedIndexChanged);
             // 
             // columnHeader1
             // 

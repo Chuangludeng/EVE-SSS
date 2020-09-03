@@ -145,6 +145,7 @@
             this.EnterInventory.TabIndex = 15;
             this.EnterInventory.Text = "入库";
             this.EnterInventory.UseVisualStyleBackColor = true;
+            this.EnterInventory.Click += new System.EventHandler(this.EnterInventory_Click);
             // 
             // ItemIcon
             // 
@@ -239,6 +240,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(152, 20);
             this.textBox1.TabIndex = 10;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label5
             // 
