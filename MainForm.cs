@@ -58,9 +58,31 @@ namespace EVE_SSS
         {
             if (EnterInventory_Item.typeID != 0)
             {
-                DataManager.EnterInventory(EnterInventory_Item.typeID, int.Parse(textBox2.Text), (int)double.Parse(textBox1.Text));
+                DataManager.EnterInventory(EnterInventory_Item.typeID, int.Parse(textBox2.Text), (int)double.Parse(textBox1.Text), ItemName.Text);
                 updateInventoryItem(EnterInventory_Item);
             }
+        }
+
+        private void OverviewRefresh_Click(object sender, EventArgs e)
+        {
+            var list = DataManager.QueryAllInventory();
+
+            OverviewList.BeginUpdate();
+
+            OverviewList.Items.Clear();
+
+            foreach (var item in list)
+            {
+                var listViewItem = new ListViewItem();
+
+                listViewItem.Text = item.name;
+                listViewItem.SubItems.Add(item.number.ToString());
+                listViewItem.SubItems.Add(item.price.ToString());
+
+                OverviewList.Items.Add(listViewItem);
+            }
+
+            OverviewList.EndUpdate();
         }
     }
 }

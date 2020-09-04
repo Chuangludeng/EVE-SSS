@@ -9,6 +9,7 @@ namespace EVE_SSS
     public class EVEItem
     {
         public int typeID;
+        public string name;
         public int number;
         public int price;
     }

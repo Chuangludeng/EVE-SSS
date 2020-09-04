@@ -23,7 +23,7 @@ namespace EVE_SSS
             con_store.Open();
         }
 
-        public static void EnterInventory(int type,int number,int price)
+        public static void EnterInventory(int type,int number,int price,string name)
         {
             var cmd = con_store.CreateCommand();
             cmd.CommandText = "SELECT * FROM store WHERE id = @type";
@@ -49,9 +49,10 @@ namespace EVE_SSS
             else
             {
                 reader.Close();
-                cmd.CommandText = "INSERT INTO store VALUES(@type,@number,@price)";
+                cmd.CommandText = "INSERT INTO store VALUES(@type,@number,@price,@name)";
                 cmd.Parameters.AddWithValue("@number", number);
                 cmd.Parameters.AddWithValue("@price", price);
+                cmd.Parameters.AddWithValue("@name", name);
 
                 cmd.ExecuteNonQuery();
             }
@@ -76,6 +77,36 @@ namespace EVE_SSS
                 reader.Close();
 
                 return item;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
+
+        public static List<EVEItem> QueryAllInventory()
+        {
+            var cmd = con_store.CreateCommand();
+            cmd.CommandText = "SELECT * FROM store";
+            var reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                List<EVEItem> itemList = new List<EVEItem>();
+
+                while(reader.Read())
+                {
+                    var item = new EVEItem();
+                    item.typeID = reader.GetInt32(0);
+                    item.number = reader.GetInt32(1);
+                    item.price = reader.GetInt32(2);
+                    item.name = reader.GetString(3);
+                    itemList.Add(item);
+                }
+
+                reader.Close();
+                return itemList;
             }
             else
             {
