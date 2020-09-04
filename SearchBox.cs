@@ -14,11 +14,13 @@ namespace EVE_SSS
     public partial class SearchBox : UserControl
     {
         private SQLiteCommand itemSearchSQLcmd;
-        private const string itemSearchSQL = "SELECT type_i18n.value,type.* FROM type_i18n INNER JOIN type on type_i18n.typeid = type.id WHERE type_i18n.key = 'name' AND type_i18n.language = 'zh' AND type_i18n.value LIKE @name || '%' LIMIT 50";
+        private const string itemSearchSQL = "SELECT type_i18n.value,type.* FROM type_i18n INNER JOIN type on type_i18n.typeid = type.id WHERE {0} AND type_i18n.key = 'name' AND type_i18n.language = 'zh' AND type_i18n.value LIKE @name || '%' LIMIT 50";
 
         public delegate void OnSelectedItem_Handle(int typeID,string name);
 
         public event OnSelectedItem_Handle onSelectedItem;
+
+        public string additionalConditions = "TRUE";
 
         public SearchBox()
         {
@@ -28,7 +30,7 @@ namespace EVE_SSS
         public void SearchBoxInit()
         {
             itemSearchSQLcmd = DataManager.con.CreateCommand();
-            itemSearchSQLcmd.CommandText = itemSearchSQL;
+            itemSearchSQLcmd.CommandText = string.Format(itemSearchSQL, additionalConditions);
             itemSearchSQLcmd.Parameters.AddWithValue("@name", "");
         }
 
@@ -71,6 +73,11 @@ namespace EVE_SSS
             {
                 onSelectedItem(int.Parse(ResultList.SelectedItems[0].SubItems[1].Text), ResultList.SelectedItems[0].Text);
             }
+        }
+
+        private void ItemNameInput_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

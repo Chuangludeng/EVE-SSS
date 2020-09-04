@@ -30,7 +30,6 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.SearchBox_Enter = new EVE_SSS.SearchBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.InventoryNumber = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -78,7 +77,6 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.Production_BlueprintName = new System.Windows.Forms.Label();
-            this.SearchBox_Production = new EVE_SSS.SearchBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -94,6 +92,8 @@
             this.label27 = new System.Windows.Forms.Label();
             this.Production_BuildingsCost = new System.Windows.Forms.TextBox();
             this.Production = new System.Windows.Forms.Button();
+            this.SearchBox_Enter = new EVE_SSS.SearchBox();
+            this.SearchBox_Production = new EVE_SSS.SearchBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -133,13 +133,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "入库";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // SearchBox_Enter
-            // 
-            this.SearchBox_Enter.Location = new System.Drawing.Point(6, 18);
-            this.SearchBox_Enter.Name = "SearchBox_Enter";
-            this.SearchBox_Enter.Size = new System.Drawing.Size(326, 507);
-            this.SearchBox_Enter.TabIndex = 18;
             // 
             // groupBox1
             // 
@@ -633,13 +626,6 @@
             this.Production_BlueprintName.Size = new System.Drawing.Size(0, 25);
             this.Production_BlueprintName.TabIndex = 6;
             // 
-            // SearchBox_Production
-            // 
-            this.SearchBox_Production.Location = new System.Drawing.Point(8, 6);
-            this.SearchBox_Production.Name = "SearchBox_Production";
-            this.SearchBox_Production.Size = new System.Drawing.Size(339, 509);
-            this.SearchBox_Production.TabIndex = 0;
-            // 
             // tabPage3
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -777,6 +763,20 @@
             this.Production.TabIndex = 39;
             this.Production.Text = "生产";
             this.Production.UseVisualStyleBackColor = true;
+            // 
+            // SearchBox_Enter
+            // 
+            this.SearchBox_Enter.Location = new System.Drawing.Point(6, 18);
+            this.SearchBox_Enter.Name = "SearchBox_Enter";
+            this.SearchBox_Enter.Size = new System.Drawing.Size(326, 507);
+            this.SearchBox_Enter.TabIndex = 18;
+            // 
+            // SearchBox_Production
+            // 
+            this.SearchBox_Production.Location = new System.Drawing.Point(8, 6);
+            this.SearchBox_Production.Name = "SearchBox_Production";
+            this.SearchBox_Production.Size = new System.Drawing.Size(339, 509);
+            this.SearchBox_Production.TabIndex = 0;
             // 
             // MainForm
             // 

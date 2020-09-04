@@ -114,5 +114,59 @@ namespace EVE_SSS
                 return null;
             }
         }
+
+        public static string QueryName(int type)
+        {
+            var cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT value FROM type_i18n WHERE typeId = @type";
+            cmd.Parameters.AddWithValue("@type", type);
+            var reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+
+                var ret = reader.GetString(0);
+                reader.Close();
+
+                return ret;
+            }
+            else
+            {
+                reader.Close();
+                return "";
+            }
+        }
+
+        public static List<EVEItem> QueryBlueprintMaterials(int typeID)
+        {
+            var cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT typeID,quantity FROM blueprint_material WHERE id = @type";
+            cmd.Parameters.AddWithValue("@type", typeID);
+            var reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                List<EVEItem> itemList = new List<EVEItem>();
+
+                while (reader.Read())
+                {
+                    var item = new EVEItem();
+                    item.typeID = reader.GetInt32(0);
+                    item.request_quantity = reader.GetInt32(1);
+                    item.name = QueryName(item.typeID);
+                    QueryInventory(item);
+                    itemList.Add(item);
+                }
+
+                reader.Close();
+                return itemList;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
     }
 }

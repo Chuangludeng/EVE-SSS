@@ -12,5 +12,6 @@ namespace EVE_SSS
         public string name;
         public int number;
         public int price;
+        public int request_quantity;
     }
 }

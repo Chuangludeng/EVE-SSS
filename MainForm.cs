@@ -13,6 +13,9 @@ namespace EVE_SSS
     public partial class MainForm : Form
     {
         public EVEItem EnterInventory_Item = new EVEItem();
+        public EVEItem Production_Item = new EVEItem();
+
+        public List<EVEItem> Production_Materials_EVEList;
 
         public MainForm()
         {
@@ -25,6 +28,10 @@ namespace EVE_SSS
 
             SearchBox_Enter.SearchBoxInit();
             SearchBox_Enter.onSelectedItem += onSearchBox_Enter_ItemSelected;
+
+            SearchBox_Production.additionalConditions = "EXISTS(SELECT 1 FROM blueprint WHERE id = type_i18n.typeid)";
+            SearchBox_Production.SearchBoxInit();
+            SearchBox_Production.onSelectedItem += onSearchBox_Production_ItemSelected;
         }
 
         private void onSearchBox_Enter_ItemSelected(int typeID,string name)
@@ -63,6 +70,41 @@ namespace EVE_SSS
             }
         }
 
+        private void onSearchBox_Production_ItemSelected(int typeID, string name)
+        {
+            Production_Item.typeID = typeID;
+            Production_BlueprintName.Text = name;
+            createBlueprintInfo();
+        }
+
+        private void createBlueprintInfo()
+        {
+            Production_Materials_EVEList = DataManager.QueryBlueprintMaterials(Production_Item.typeID);
+
+            Production_Materials_List.BeginUpdate();
+            Production_Materials_List.Items.Clear();
+
+            foreach (var item in Production_Materials_EVEList)
+            {
+                var listViewItem = new ListViewItem();
+
+                listViewItem.Text = item.name;
+                listViewItem.SubItems.Add(item.number.ToString());
+                listViewItem.SubItems.Add(item.price.ToString());
+
+                OverviewList.Items.Add(listViewItem);
+            }
+
+            Production_Materials_List.EndUpdate();
+
+            updateBlueprintInfo();
+        }
+
+        private void updateBlueprintInfo()
+        {
+
+        }
+
         private void OverviewRefresh_Click(object sender, EventArgs e)
         {
             var list = DataManager.QueryAllInventory();
@@ -84,5 +126,6 @@ namespace EVE_SSS
 
             OverviewList.EndUpdate();
         }
+
     }
 }

@@ -61,6 +61,7 @@
             this.ItemNameInput.Name = "ItemNameInput";
             this.ItemNameInput.Size = new System.Drawing.Size(256, 20);
             this.ItemNameInput.TabIndex = 21;
+            this.ItemNameInput.TextChanged += new System.EventHandler(this.ItemNameInput_TextChanged);
             this.ItemNameInput.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ItemNameInput_KeyUp);
             // 
             // label1
