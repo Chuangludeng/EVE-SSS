@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.SearchBox_Enter = new EVE_SSS.SearchBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.InventoryNumber = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -48,6 +49,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Production = new System.Windows.Forms.Button();
+            this.Production_BuildingsCost = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.Production_BlueprintCost = new System.Windows.Forms.TextBox();
             this.Production_InventCost = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -77,6 +82,7 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.Production_BlueprintName = new System.Windows.Forms.Label();
+            this.SearchBox_Production = new EVE_SSS.SearchBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -88,12 +94,8 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.Production_BlueprintCost = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.Production_BuildingsCost = new System.Windows.Forms.TextBox();
-            this.Production = new System.Windows.Forms.Button();
-            this.SearchBox_Enter = new EVE_SSS.SearchBox();
-            this.SearchBox_Production = new EVE_SSS.SearchBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.calculateMineral = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -106,6 +108,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -115,6 +118,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -133,6 +137,13 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "入库";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // SearchBox_Enter
+            // 
+            this.SearchBox_Enter.Location = new System.Drawing.Point(6, 18);
+            this.SearchBox_Enter.Name = "SearchBox_Enter";
+            this.SearchBox_Enter.Size = new System.Drawing.Size(326, 507);
+            this.SearchBox_Enter.TabIndex = 18;
             // 
             // groupBox1
             // 
@@ -354,6 +365,39 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "明细";
+            // 
+            // Production
+            // 
+            this.Production.Location = new System.Drawing.Point(423, 399);
+            this.Production.Name = "Production";
+            this.Production.Size = new System.Drawing.Size(182, 89);
+            this.Production.TabIndex = 39;
+            this.Production.Text = "生产";
+            this.Production.UseVisualStyleBackColor = true;
+            // 
+            // Production_BuildingsCost
+            // 
+            this.Production_BuildingsCost.Location = new System.Drawing.Point(364, 360);
+            this.Production_BuildingsCost.Name = "Production_BuildingsCost";
+            this.Production_BuildingsCost.Size = new System.Drawing.Size(146, 20);
+            this.Production_BuildingsCost.TabIndex = 38;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(285, 358);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(73, 20);
+            this.label27.TabIndex = 37;
+            this.label27.Text = "建筑成本";
+            // 
+            // Production_BlueprintCost
+            // 
+            this.Production_BlueprintCost.Location = new System.Drawing.Point(364, 280);
+            this.Production_BlueprintCost.Name = "Production_BlueprintCost";
+            this.Production_BlueprintCost.Size = new System.Drawing.Size(146, 20);
+            this.Production_BlueprintCost.TabIndex = 36;
             // 
             // Production_InventCost
             // 
@@ -626,6 +670,13 @@
             this.Production_BlueprintName.Size = new System.Drawing.Size(0, 25);
             this.Production_BlueprintName.TabIndex = 6;
             // 
+            // SearchBox_Production
+            // 
+            this.SearchBox_Production.Location = new System.Drawing.Point(8, 6);
+            this.SearchBox_Production.Name = "SearchBox_Production";
+            this.SearchBox_Production.Size = new System.Drawing.Size(339, 509);
+            this.SearchBox_Production.TabIndex = 0;
+            // 
             // tabPage3
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -731,52 +782,25 @@
             this.tabPage5.Text = "资金总览";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // Production_BlueprintCost
+            // tabPage6
             // 
-            this.Production_BlueprintCost.Location = new System.Drawing.Point(364, 280);
-            this.Production_BlueprintCost.Name = "Production_BlueprintCost";
-            this.Production_BlueprintCost.Size = new System.Drawing.Size(146, 20);
-            this.Production_BlueprintCost.TabIndex = 36;
+            this.tabPage6.Controls.Add(this.calculateMineral);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(980, 533);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "配矿";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // label27
+            // calculateMineral
             // 
-            this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(285, 358);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(73, 20);
-            this.label27.TabIndex = 37;
-            this.label27.Text = "建筑成本";
-            // 
-            // Production_BuildingsCost
-            // 
-            this.Production_BuildingsCost.Location = new System.Drawing.Point(364, 360);
-            this.Production_BuildingsCost.Name = "Production_BuildingsCost";
-            this.Production_BuildingsCost.Size = new System.Drawing.Size(146, 20);
-            this.Production_BuildingsCost.TabIndex = 38;
-            // 
-            // Production
-            // 
-            this.Production.Location = new System.Drawing.Point(423, 399);
-            this.Production.Name = "Production";
-            this.Production.Size = new System.Drawing.Size(182, 89);
-            this.Production.TabIndex = 39;
-            this.Production.Text = "生产";
-            this.Production.UseVisualStyleBackColor = true;
-            // 
-            // SearchBox_Enter
-            // 
-            this.SearchBox_Enter.Location = new System.Drawing.Point(6, 18);
-            this.SearchBox_Enter.Name = "SearchBox_Enter";
-            this.SearchBox_Enter.Size = new System.Drawing.Size(326, 507);
-            this.SearchBox_Enter.TabIndex = 18;
-            // 
-            // SearchBox_Production
-            // 
-            this.SearchBox_Production.Location = new System.Drawing.Point(8, 6);
-            this.SearchBox_Production.Name = "SearchBox_Production";
-            this.SearchBox_Production.Size = new System.Drawing.Size(339, 509);
-            this.SearchBox_Production.TabIndex = 0;
+            this.calculateMineral.Location = new System.Drawing.Point(18, 13);
+            this.calculateMineral.Name = "calculateMineral";
+            this.calculateMineral.Size = new System.Drawing.Size(70, 29);
+            this.calculateMineral.TabIndex = 0;
+            this.calculateMineral.Text = "配矿";
+            this.calculateMineral.UseVisualStyleBackColor = true;
+            this.calculateMineral.Click += new System.EventHandler(this.calculateMineral_Click);
             // 
             // MainForm
             // 
@@ -802,6 +826,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -874,6 +899,8 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox Production_BlueprintCost;
         private System.Windows.Forms.Button Production;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Button calculateMineral;
     }
 }
 

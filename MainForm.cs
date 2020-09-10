@@ -17,6 +17,8 @@ namespace EVE_SSS
 
         public List<EVEItem> Production_Materials_EVEList;
 
+        ORGCalculate ogr_calculate = new ORGCalculate();
+
         public MainForm()
         {
             InitializeComponent();
@@ -127,5 +129,9 @@ namespace EVE_SSS
             OverviewList.EndUpdate();
         }
 
+        private void calculateMineral_Click(object sender, EventArgs e)
+        {
+            ogr_calculate.Calculate();
+        }
     }
 }
