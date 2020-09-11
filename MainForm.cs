@@ -17,7 +17,7 @@ namespace EVE_SSS
 
         public List<EVEItem> Production_Materials_EVEList;
 
-        ORGCalculate ogr_calculate = new ORGCalculate();
+        ORECalculate ore_calculate = new ORECalculate(false);
 
         public MainForm()
         {
@@ -42,6 +42,8 @@ namespace EVE_SSS
             if (DataManager.QueryInventory(EnterInventory_Item) != null)
                 updateInventoryItem(EnterInventory_Item);
             ItemName.Text = name;
+
+            textBox4.Text = typeID.ToString();
         }
 
         private void updateInventoryItem(EVEItem item)
@@ -131,7 +133,17 @@ namespace EVE_SSS
 
         private void calculateMineral_Click(object sender, EventArgs e)
         {
-            ogr_calculate.Calculate();
+            ore_calculate.UpdateOREPrice(buyPriceButton.Checked);
+            ore_calculate.SetOREData(float.Parse(ratio_input.Text));
+            optimize_output.Text = ore_calculate.Calculate(
+                int.Parse(a_input.Text),
+                int.Parse(b_input.Text),
+                int.Parse(c_input.Text),
+                int.Parse(d_input.Text),
+                int.Parse(e_input.Text),
+                int.Parse(f_input.Text),
+                int.Parse(g_input.Text),
+                int.Parse(h_input.Text));
         }
     }
 }
