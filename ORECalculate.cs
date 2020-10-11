@@ -63,7 +63,7 @@ namespace EVE_SSS
                     if (isBuyPrice)
                         kv.Value.price = (int)price.buy.max;
                     else
-                        kv.Value.price = (int)price.sell.max;
+                        kv.Value.price = (int)price.sell.min;
                 }
             }
         }

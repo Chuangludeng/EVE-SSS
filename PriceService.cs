@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.IO;
+using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace EVE_SSS.PriceStructure
@@ -48,32 +45,21 @@ namespace EVE_SSS
 
         public static PriceStructure.Root GetPrice(int type_id)
         {
-            var task = GetCallAPI("https://www.ceve-market.org/api/market/region/10000002/type/" + type_id.ToString() + ".json");
-
-            task.Wait();
-
-            return task.Result;
+            return GetCallAPI("https://www.ceve-market.org/api/market/region/10000002/type/" + type_id.ToString() + ".json");
         }
 
-        public static async Task<PriceStructure.Root> GetCallAPI(string url)
+        public static PriceStructure.Root GetCallAPI(string url)
         {
-            try
-            {
-                using (HttpClient client = new HttpClient())
-                {
-                    var response = await client.GetAsync(url);
-                    if (response != null)
-                    {
-                        var jsonString = await response.Content.ReadAsStringAsync();
-                        return JsonConvert.DeserializeObject<PriceStructure.Root>(jsonString);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-            return null;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "GET";
+            request.ContentType = "text/html;charset=UTF-8";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            Stream myResponseStream = response.GetResponseStream();
+            StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
+            string retString = myStreamReader.ReadToEnd();
+            myStreamReader.Close();
+            myResponseStream.Close();
+            return JsonConvert.DeserializeObject<PriceStructure.Root>(retString);
         }
     }
 }

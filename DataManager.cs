@@ -118,7 +118,7 @@ namespace EVE_SSS
         public static string QueryName(int type)
         {
             var cmd = con.CreateCommand();
-            cmd.CommandText = "SELECT value FROM type_i18n WHERE typeId = @type";
+            cmd.CommandText = "SELECT value FROM type_i18n WHERE typeId = @type and key = 'name'";
             cmd.Parameters.AddWithValue("@type", type);
             var reader = cmd.ExecuteReader();
 
@@ -138,10 +138,10 @@ namespace EVE_SSS
             }
         }
 
-        public static List<EVEItem> QueryBlueprintMaterials(int typeID)
+        public static List<EVEItem> QueryBlueprintProductionMaterials(int typeID)
         {
             var cmd = con.CreateCommand();
-            cmd.CommandText = "SELECT typeID,quantity FROM blueprint_material WHERE id = @type";
+            cmd.CommandText = "SELECT typeID,quantity FROM blueprint_material WHERE id = @type AND activityType = 2";
             cmd.Parameters.AddWithValue("@type", typeID);
             var reader = cmd.ExecuteReader();
 

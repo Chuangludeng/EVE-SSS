@@ -83,7 +83,7 @@ namespace EVE_SSS
 
         private void createBlueprintInfo()
         {
-            Production_Materials_EVEList = DataManager.QueryBlueprintMaterials(Production_Item.typeID);
+            Production_Materials_EVEList = DataManager.QueryBlueprintProductionMaterials(Production_Item.typeID);
 
             Production_Materials_List.BeginUpdate();
             Production_Materials_List.Items.Clear();
@@ -93,10 +93,12 @@ namespace EVE_SSS
                 var listViewItem = new ListViewItem();
 
                 listViewItem.Text = item.name;
+                listViewItem.SubItems.Add(item.request_quantity.ToString());
                 listViewItem.SubItems.Add(item.number.ToString());
                 listViewItem.SubItems.Add(item.price.ToString());
+                listViewItem.SubItems.Add("");
 
-                OverviewList.Items.Add(listViewItem);
+                Production_Materials_List.Items.Add(listViewItem);
             }
 
             Production_Materials_List.EndUpdate();
@@ -106,7 +108,39 @@ namespace EVE_SSS
 
         private void updateBlueprintInfo()
         {
+            Production_Materials_List.BeginUpdate();
 
+            int index = 0;
+            int outNumber = 0;
+            int production_Number = 1;
+
+            if(int.TryParse(Production_Number.Text, out outNumber))
+            {
+                production_Number = outNumber;
+            }
+
+            foreach (ListViewItem item in Production_Materials_List.Items )
+            {
+                EVEItem eveItem = Production_Materials_EVEList[index];
+                DataManager.QueryInventory(eveItem);
+
+                item.SubItems[1].Text = (eveItem.request_quantity * production_Number).ToString();
+                item.SubItems[2].Text = (eveItem.number).ToString();
+                item.SubItems[3].Text = (eveItem.price).ToString();
+                item.SubItems[4].Text = (PriceService.GetPrice(eveItem.typeID).sell.min).ToString();
+
+                index++;
+            }
+
+            Production_Materials_List.EndUpdate();
+        }
+        private void Production_Number_TextChanged(object sender, EventArgs e)
+        {
+            int outNumber = 0;
+            if(Production_Materials_EVEList != null && int.TryParse(Production_Number.Text,out outNumber))
+            {
+                updateBlueprintInfo();
+            }
         }
 
         private void OverviewRefresh_Click(object sender, EventArgs e)
