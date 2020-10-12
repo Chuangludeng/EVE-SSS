@@ -14,4 +14,12 @@ namespace EVE_SSS
         public int price;
         public int request_quantity;
     }
+
+    public class Blueprint
+    {
+        public int typeID;
+        public int targetID;
+        public string targetName;
+        public int targetQuantity;
+    }
 }

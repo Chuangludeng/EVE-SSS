@@ -85,6 +85,17 @@ namespace EVE_SSS
             }
         }
 
+        public static void UpdateInventoryNumber(EVEItem item)
+        {
+            var cmd = con_store.CreateCommand();
+            cmd.CommandText = "Update store SET number = @number WHERE id = @type";
+            cmd.Parameters.AddWithValue("@type", item.typeID);
+            cmd.Parameters.AddWithValue("@number", item.number);
+            var reader = cmd.ExecuteReader();
+
+            return;
+        }
+
         public static List<EVEItem> QueryAllInventory()
         {
             var cmd = con_store.CreateCommand();
@@ -138,6 +149,35 @@ namespace EVE_SSS
             }
         }
 
+        public static Blueprint QueryBlueprintProduction(int typeID)
+        {
+            var cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT typeID,quantity FROM blueprint_product WHERE id = @type AND activityType = 2";
+            cmd.Parameters.AddWithValue("@type", typeID);
+            var reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                Blueprint blueprint = new Blueprint();
+                blueprint.typeID = typeID;
+
+                while (reader.Read())
+                {
+                    blueprint.targetID = reader.GetInt32(0);
+                    blueprint.targetName = QueryName(blueprint.targetID);
+                    blueprint.targetQuantity = reader.GetInt32(1);
+                }
+
+                reader.Close();
+                return blueprint;
+            }
+            else
+            {
+                reader.Close();
+                return null;
+            }
+        }
+
         public static List<EVEItem> QueryBlueprintProductionMaterials(int typeID)
         {
             var cmd = con.CreateCommand();
@@ -168,5 +208,7 @@ namespace EVE_SSS
                 return null;
             }
         }
+
+
     }
 }

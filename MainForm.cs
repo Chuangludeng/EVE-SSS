@@ -16,6 +16,7 @@ namespace EVE_SSS
         public EVEItem Production_Item = new EVEItem();
 
         public List<EVEItem> Production_Materials_EVEList;
+        public Blueprint Production_Blueprint;
 
         ORECalculate ore_calculate = new ORECalculate(false);
 
@@ -44,6 +45,13 @@ namespace EVE_SSS
             ItemName.Text = name;
 
             textBox4.Text = typeID.ToString();
+
+            var priceS = PriceService.GetPrice(typeID);
+            float sell = priceS.sell.min;
+            float buy = priceS.buy.max;
+
+            SellPrice.Text = sell.ToString("###,###");
+            BuyPrice.Text = buy.ToString("###,###");
         }
 
         private void updateInventoryItem(EVEItem item)
@@ -74,6 +82,15 @@ namespace EVE_SSS
             }
         }
 
+        private void EnterInventory_Discount_Click(object sender, EventArgs e)
+        {
+            if (EnterInventory_Item.typeID != 0)
+            {
+                DataManager.EnterInventory(EnterInventory_Item.typeID, int.Parse(textBox2.Text), (int)(double.Parse(SellPrice.Text) * double.Parse(Price_Discount.Text)), ItemName.Text);
+                updateInventoryItem(EnterInventory_Item);
+            }
+        }
+
         private void onSearchBox_Production_ItemSelected(int typeID, string name)
         {
             Production_Item.typeID = typeID;
@@ -83,6 +100,7 @@ namespace EVE_SSS
 
         private void createBlueprintInfo()
         {
+            Production_Blueprint = DataManager.QueryBlueprintProduction(Production_Item.typeID);
             Production_Materials_EVEList = DataManager.QueryBlueprintProductionMaterials(Production_Item.typeID);
 
             Production_Materials_List.BeginUpdate();
@@ -93,6 +111,7 @@ namespace EVE_SSS
                 var listViewItem = new ListViewItem();
 
                 listViewItem.Text = item.name;
+                listViewItem.Tag = item.typeID;
                 listViewItem.SubItems.Add(item.request_quantity.ToString());
                 listViewItem.SubItems.Add(item.number.ToString());
                 listViewItem.SubItems.Add(item.price.ToString());
@@ -114,25 +133,88 @@ namespace EVE_SSS
             int outNumber = 0;
             int production_Number = 1;
 
-            if(int.TryParse(Production_Number.Text, out outNumber))
+            int save = 0;
+
+            float cost = 0;
+
+            bool canProduction = true;
+
+            if (int.TryParse(Production_Number.Text, out outNumber))
             {
+                if (outNumber == 0)
+                    outNumber = 1;
                 production_Number = outNumber;
             }
+
+            if (int.TryParse(Production_BlueprintSave.Text, out outNumber))
+            {
+                save += outNumber;
+            }
+
+            if (int.TryParse(Production_BuildingsSave.Text, out outNumber))
+            {
+                save += outNumber;
+            }
+
+            if (int.TryParse(Production_BlueprintCost.Text, out outNumber))
+            {
+                cost += outNumber;
+            }
+
+            if (int.TryParse(Production_InventCost.Text, out outNumber))
+            {
+                cost += outNumber;
+            }
+
+            if (int.TryParse(Production_BuildingsCost.Text, out outNumber))
+            {
+                cost += outNumber;
+            }
+
+            cost = cost / production_Number;
 
             foreach (ListViewItem item in Production_Materials_List.Items )
             {
                 EVEItem eveItem = Production_Materials_EVEList[index];
                 DataManager.QueryInventory(eveItem);
 
-                item.SubItems[1].Text = (eveItem.request_quantity * production_Number).ToString();
+                int number = (int) Math.Round(eveItem.request_quantity * ((100 - save)*0.01f));
+
+                float market_price = PriceService.GetPrice(eveItem.typeID).sell.min;
+
+                item.SubItems[1].Text = (number * production_Number).ToString();
                 item.SubItems[2].Text = (eveItem.number).ToString();
+                if (number * production_Number > eveItem.number)
+                {
+                    item.ForeColor = Color.Red;
+                    canProduction = false;
+                }
+                else
+                    item.ForeColor = Color.Black;
                 item.SubItems[3].Text = (eveItem.price).ToString();
-                item.SubItems[4].Text = (PriceService.GetPrice(eveItem.typeID).sell.min).ToString();
+                item.SubItems[4].Text = (market_price).ToString();
+
+                if (eveItem.number > 0)
+                    cost += number * eveItem.price;
+                else
+                    cost += number * market_price;
 
                 index++;
             }
 
             Production_Materials_List.EndUpdate();
+            var priceS = PriceService.GetPrice(Production_Blueprint.targetID);
+            float sell = priceS.sell.min;
+            float buy = priceS.buy.max;
+
+            Production_SingleCost.Text = cost.ToString("###,###");
+            Production_Cost.Text = (cost * production_Number).ToString("###,###");
+            Production_Sell.Text = sell.ToString("###,###");
+            Production_Buy.Text = buy.ToString("###,###");
+            Production_SingleProfit.Text = (sell - cost).ToString("###,###");
+            Production_Profit.Text = ((sell - cost) * production_Number).ToString("###,###");
+
+            Production.Enabled = canProduction;
         }
         private void Production_Number_TextChanged(object sender, EventArgs e)
         {
@@ -141,6 +223,92 @@ namespace EVE_SSS
             {
                 updateBlueprintInfo();
             }
+        }
+
+        private void Production_BuildingsSave_TextChanged(object sender, EventArgs e)
+        {
+            int outNumber = 0;
+            if (Production_Materials_EVEList != null && int.TryParse(Production_BuildingsSave.Text, out outNumber))
+            {
+                updateBlueprintInfo();
+            }
+        }
+
+        private void Production_BlueprintSave_TextChanged(object sender, EventArgs e)
+        {
+            int outNumber = 0;
+            if (Production_Materials_EVEList != null && int.TryParse(Production_BlueprintSave.Text, out outNumber))
+            {
+                updateBlueprintInfo();
+            }
+        }
+
+        private void Production_BlueprintCost_TextChanged(object sender, EventArgs e)
+        {
+            int outNumber = 0;
+            if (Production_Materials_EVEList != null && int.TryParse(Production_BlueprintCost.Text, out outNumber))
+            {
+                updateBlueprintInfo();
+            }
+        }
+
+        private void Production_InventCost_TextChanged(object sender, EventArgs e)
+        {
+            int outNumber = 0;
+            if (Production_Materials_EVEList != null && int.TryParse(Production_InventCost.Text, out outNumber))
+            {
+                updateBlueprintInfo();
+            }
+        }
+
+        private void Production_BuildingsCost_TextChanged(object sender, EventArgs e)
+        {
+            int outNumber = 0;
+            if (Production_Materials_EVEList != null && int.TryParse(Production_BuildingsCost.Text, out outNumber))
+            {
+                updateBlueprintInfo();
+            }
+        }
+
+        private void Production_Materials_List_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            tabControl1.SelectedTab = tabControl1.TabPages[0];
+            if (Production_Materials_List.SelectedItems.Count != 0)
+            {
+                int typeID = (int)Production_Materials_List.SelectedItems[0].Tag;
+                textBox2.Text = Production_Materials_List.SelectedItems[0].SubItems[1].Text;
+                onSearchBox_Enter_ItemSelected(typeID, Production_Materials_List.SelectedItems[0].Text);
+            }
+        }
+
+        private void Production_Click(object sender, EventArgs e)
+        {
+            Production_Materials_List.BeginUpdate();
+
+            int index = 0;
+
+            foreach (ListViewItem item in Production_Materials_List.Items)
+            {
+                EVEItem eveItem = Production_Materials_EVEList[index];
+                DataManager.QueryInventory(eveItem);
+
+                eveItem.number = eveItem.number - int.Parse(item.SubItems[1].Text);
+
+                DataManager.UpdateInventoryNumber(eveItem);
+
+                index++;
+            }
+
+            Production_Materials_List.EndUpdate();
+
+            DataManager.EnterInventory(Production_Blueprint.targetID, int.Parse(Production_Number.Text), int.Parse(Production_SingleCost.Text.Replace(",","")), Production_Blueprint.targetName);
+
+            updateBlueprintInfo();
+        }
+
+        private void Production_Refresh_Click(object sender, EventArgs e)
+        {
+            updateBlueprintInfo();
         }
 
         private void OverviewRefresh_Click(object sender, EventArgs e)
@@ -156,8 +324,8 @@ namespace EVE_SSS
                 var listViewItem = new ListViewItem();
 
                 listViewItem.Text = item.name;
-                listViewItem.SubItems.Add(item.number.ToString());
-                listViewItem.SubItems.Add(item.price.ToString());
+                listViewItem.SubItems.Add(item.number.ToString("###,###"));
+                listViewItem.SubItems.Add(item.price.ToString("###,###"));
 
                 OverviewList.Items.Add(listViewItem);
             }
@@ -178,6 +346,11 @@ namespace EVE_SSS
                 int.Parse(f_input.Text),
                 int.Parse(g_input.Text),
                 int.Parse(h_input.Text));
+        }
+
+        private void Production_Materials_List_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

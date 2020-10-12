@@ -7,22 +7,22 @@ namespace EVE_SSS.PriceStructure
 {
     public class All
     {
-        public int max { get; set; }
-        public double min { get; set; }
+        public float max { get; set; }
+        public float min { get; set; }
         public long volume { get; set; }
     }
 
     public class Buy
     {
-        public double max { get; set; }
-        public double min { get; set; }
+        public float max { get; set; }
+        public float min { get; set; }
         public long volume { get; set; }
     }
 
     public class Sell
     {
-        public int max { get; set; }
-        public int min { get; set; }
+        public float max { get; set; }
+        public float min { get; set; }
         public long volume { get; set; }
     }
 
